@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "inputcontainer1"
+				"fileName": "sql_imp.txt",
+				"container": "kamleshcontainer"
 			}
 		}
 	}
