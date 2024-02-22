@@ -1,0 +1,17 @@
+{
+	"name": "source_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "source_linked_service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "inputcontainer1"
+			}
+		}
+	}
+}

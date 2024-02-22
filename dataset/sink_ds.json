@@ -1,0 +1,17 @@
+{
+	"name": "sink_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sink_linked_service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "outputcontainer"
+			}
+		}
+	}
+}
