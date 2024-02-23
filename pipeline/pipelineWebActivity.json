@@ -1,0 +1,178 @@
+{
+	"name": "pipelineWebActivity",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web Activity 1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": "\thttps://dummy.restapiexample.com/api/v1/employees"
+				}
+			},
+			{
+				"name": "Filter The Data on salary",
+				"description": "the employees whose salary is greater than 600000",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Web Activity 1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Web Activity 1').output.data",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@greater(item().employee_salary,600000)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "filter data on emp age",
+				"description": "find data whose age less than 22",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Web Activity 1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Web Activity 1').output.data",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@less(item().employee_age,30)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "greater salary employees",
+				"type": "AppendVariable",
+				"dependsOn": [
+					{
+						"activity": "Filter The Data on salary",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ArraySalary",
+					"value": {
+						"value": "@activity('Filter The Data on salary').output",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "small age employees",
+				"type": "AppendVariable",
+				"dependsOn": [
+					{
+						"activity": "filter data on emp age",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ArrayAge",
+					"value": {
+						"value": "@activity('filter data on emp age').output",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "high packages employees",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "greater salary employees",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "setSalaryArray",
+					"value": {
+						"value": "@variables('ArraySalary')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "less age employees",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "small age employees",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "less age",
+					"value": {
+						"value": "@variables('ArrayAge')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"ArraySalary": {
+				"type": "Array"
+			},
+			"ArrayAge": {
+				"type": "Array"
+			},
+			"setSalary": {
+				"type": "String"
+			},
+			"setSalaryArray": {
+				"type": "Array"
+			},
+			"less age": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}

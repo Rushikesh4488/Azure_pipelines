@@ -1,0 +1,38 @@
+{
+	"name": "pipeline3",
+	"properties": {
+		"variables": {
+			"list of employees": {
+				"type": "String"
+			},
+			"op": {
+				"type": "String"
+			},
+			"op1": {
+				"type": "Array"
+			},
+			"l1": {
+				"type": "Array"
+			},
+			"l2": {
+				"type": "Array"
+			},
+			"ArraySalary": {
+				"type": "Array"
+			},
+			"ArrayAge": {
+				"type": "Array"
+			},
+			"setSalary": {
+				"type": "String"
+			},
+			"setSalaryArray": {
+				"type": "Array"
+			},
+			"less age": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
