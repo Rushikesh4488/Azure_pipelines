@@ -1,0 +1,17 @@
+{
+	"name": "rest_service_blob_storage",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage_linked_service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "outputcontainer"
+			}
+		}
+	}
+}
