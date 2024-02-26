@@ -1,0 +1,82 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dataflow_input_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "input1"
+				},
+				{
+					"dataset": {
+						"referenceName": "dataflow_input2_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "input2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "output_dataset_dataflow",
+						"type": "DatasetReference"
+					},
+					"name": "output",
+					"rejectedDataLinkedService": {
+						"referenceName": "ls_skipped row",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "jointwoinput"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID as string,",
+				"          City as string,",
+				"          State as string,",
+				"          Salary as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> input1",
+				"source(output(",
+				"          ID as string,",
+				"          Firstname as string,",
+				"          Lastname as string,",
+				"          Dept_id as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> input2",
+				"input1, input2 join(input1@ID == input2@ID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     partitionBy('hash', 1),",
+				"     broadcast: 'auto')~> jointwoinput",
+				"jointwoinput sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          ID = input1@ID,",
+				"          City,",
+				"          State,",
+				"          Salary,",
+				"          ID = input2@ID,",
+				"          Firstname,",
+				"          Lastname,",
+				"          Dept_id",
+				"     )) ~> output"
+			]
+		}
+	}
+}
