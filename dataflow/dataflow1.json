@@ -39,16 +39,17 @@
 			],
 			"scriptLines": [
 				"source(output(",
-				"          ID as string,",
+				"          ID as integer,",
 				"          City as string,",
 				"          State as string,",
 				"          Salary as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> input1",
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> input1",
 				"source(output(",
-				"          ID as string,",
+				"          ID as integer,",
 				"          Firstname as string,",
 				"          Lastname as string,",
 				"          Dept_id as string",
@@ -75,7 +76,8 @@
 				"          Firstname,",
 				"          Lastname,",
 				"          Dept_id",
-				"     )) ~> output"
+				"     ),",
+				"     partitionBy('roundRobin', 4)) ~> output"
 			]
 		}
 	}
