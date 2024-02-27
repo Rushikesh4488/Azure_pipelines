@@ -1,0 +1,12 @@
+{
+	"name": "dataflowerestdataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_for_rest_dataflow",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}

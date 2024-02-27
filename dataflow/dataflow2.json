@@ -1,0 +1,44 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "aggregate_source_ds",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "sort1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID as string,",
+				"          Firstname as string,",
+				"          Lastname as string,",
+				"          Dept_id as string,",
+				"          City as string,",
+				"          State as string,",
+				"          Salary as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 aggregate(groupBy(State),",
+				"     ID = count(ID),",
+				"          Salary = sum(Salary)) ~> aggregate1",
+				"aggregate1 sort(desc(Salary, true)) ~> sort1"
+			]
+		}
+	}
+}
