@@ -1,0 +1,52 @@
+{
+	"name": "aggregate_source_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_aggregate_sorce",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Emp_Records (1).csv",
+				"container": "inputcontainer1"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ID",
+				"type": "String"
+			},
+			{
+				"name": "Firstname",
+				"type": "String"
+			},
+			{
+				"name": "Lastname",
+				"type": "String"
+			},
+			{
+				"name": "Dept_id",
+				"type": "String"
+			},
+			{
+				"name": "City",
+				"type": "String"
+			},
+			{
+				"name": "State",
+				"type": "String"
+			},
+			{
+				"name": "Salary",
+				"type": "String"
+			}
+		]
+	}
+}
