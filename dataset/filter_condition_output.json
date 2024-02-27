@@ -1,0 +1,22 @@
+{
+	"name": "filter_condition_output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_dataflow_filter_output",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "filtercontionoutput"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

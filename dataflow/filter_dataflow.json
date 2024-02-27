@@ -1,0 +1,47 @@
+{
+	"name": "filter_dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dataflow_input_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "JoinResult"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "filter_condition_output",
+						"type": "DatasetReference"
+					},
+					"name": "FilterResult"
+				}
+			],
+			"transformations": [
+				{
+					"name": "filteeeeeeeer"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID as string,",
+				"          City as string,",
+				"          State as string,",
+				"          Salary as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> JoinResult",
+				"JoinResult filter(equals(ID,'104')) ~> filteeeeeeeer",
+				"filteeeeeeeer sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FilterResult"
+			]
+		}
+	}
+}
