@@ -1,0 +1,12 @@
+{
+	"name": "dataflowRestFlowSamirDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSforrestinputsamir",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
