@@ -1,0 +1,56 @@
+{
+	"name": "projectDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_project_input",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "airline (1).csv",
+				"container": "airlineinput"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "airline_id",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "aliase",
+				"type": "String"
+			},
+			{
+				"name": "IATA",
+				"type": "String"
+			},
+			{
+				"name": "ICAO",
+				"type": "String"
+			},
+			{
+				"name": "callsign",
+				"type": "String"
+			},
+			{
+				"name": "country",
+				"type": "String"
+			},
+			{
+				"name": "active",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -1,5 +1,5 @@
 {
-	"name": "dataflow3",
+	"name": "dataflow4",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -9,27 +9,19 @@
 						"referenceName": "dataflowRestFlowSamirDS",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "output"
 				}
 			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "samiroutputdataset",
-						"type": "DatasetReference"
-					},
-					"name": "sink1"
-				}
-			],
+			"sinks": [],
 			"transformations": [
 				{
 					"name": "derivedColumn1"
 				},
 				{
-					"name": "select1"
+					"name": "flatten2"
 				},
 				{
-					"name": "flatten1"
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -43,37 +35,30 @@
 				"     timeout: 30,",
 				"     requestInterval: 0,",
 				"     paginationRules: ['supportRFC5988' -> 'true'],",
-				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> source1",
-				"source1 derive(id = body.data.id,",
-				"          email = body.data.email,",
+				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine'],",
+				"     partitionBy('hash', 1)) ~> output",
+				"output derive(id = body.data.id,",
 				"          first_name = body.data.first_name,",
 				"          last_name = body.data.last_name,",
-				"          page = body.page,",
+				"          email_id = body.data.email,",
 				"     partitionBy('hash', 1)) ~> derivedColumn1",
-				"derivedColumn1 select(mapColumn(",
-				"          id,",
-				"          email,",
-				"          first_name,",
-				"          last_name",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"source1 foldDown(unroll(body.data),",
+				"output foldDown(unroll(body.data),",
 				"     mapColumn(",
 				"          id = body.data.id,",
-				"          first_name = body.data.first_name,",
-				"          last_name = body.data.last_name,",
-				"          email = body.data.email,",
-				"          avatar = body.data.avatar",
+				"          first_name = body.data.first_name",
 				"     ),",
 				"     partitionBy('hash', 1),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flatten1",
-				"select1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten2",
+				"derivedColumn1 select(mapColumn(",
+				"          id,",
+				"          first_name,",
+				"          last_name,",
+				"          email_id",
+				"     ),",
+				"     partitionBy('hash', 1),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     partitionBy('hash', 1)) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}

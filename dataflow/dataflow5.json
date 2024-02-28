@@ -1,0 +1,52 @@
+{
+	"name": "dataflow5",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "projectDataset",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "nullcheck"
+				},
+				{
+					"name": "name"
+				},
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          airline_id as string,",
+				"          name as string,",
+				"          aliase as string,",
+				"          IATA as string,",
+				"          ICAO as string,",
+				"          callsign as string,",
+				"          country as string,",
+				"          active as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(airline_id = iif(isNull(airline_id), 'empty_space' ,airline_id ),",
+				"          name = iif(isNull(name), \"empty_space\", name),",
+				"          IATA = iif(isNull(IATA), \"empty_space\", IATA),",
+				"          ICAO = iif(isNull(ICAO), \"empty_space\", ICAO),",
+				"     partitionBy('hash', 1)) ~> nullcheck",
+				"nullcheck derive(name1234 = regexReplace(name, '\\\\d+', '****'),",
+				"          name = ERROR_FUNCTION('')) ~> name",
+				"name alterRow() ~> alterRow1"
+			]
+		}
+	}
+}
